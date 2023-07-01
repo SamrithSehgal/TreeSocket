@@ -45,18 +45,20 @@ def treeTable(tree):
     for key in tree.keys():
         match tree[key]['sensorType']:
             case 1:
-                for node in tree[key]['data'][0]['data']:
-                    data = node['data']
-                    if('time' in data and 'string' in data):
-                        table.append([data['time'], data['string']])
+                for branch in range(len(tree[key]['data'])):
+                        for node in tree[key]['data'][branch]['data']:
+                            data = node['data']
+                            if('time' in data and 'string' in data):
+                                table.append([data['time'], data['string']])
                 for value in table:
                     cursor.execute("INSERT INTO cameradata (Time, String) VALUES (%s, %s);", (value[0], value[1]))
                 table.clear()
             case 2:
-                for node in tree[key]['data'][0]['data']:
-                    data = node['data']
-                    if('time' in data and 'uif' in data and 'mac' in data):
-                        table.append([data['time'], data['uif'], data['mac']])
+                for branch in range(len(tree[key]['data'])):
+                        for node in tree[key]['data'][branch]['data']:
+                            data = node['data']
+                            if('time' in data and 'uif' in data and 'mac' in data):
+                                table.append([data['time'], data['uif'], data['mac']])
                 for value in table:
                     cursor.execute("INSERT INTO wifidata (Time, Uif, Mac) VALUES (%s, %s, %s);", (value[0], value[1], value[2]))
                 table.clear()
